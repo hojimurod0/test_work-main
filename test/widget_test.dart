@@ -1,24 +1,19 @@
-import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter/material.dart';
-import 'package:test_work/main.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:test_work/widget/widget1.dart';
+
 
 void main() {
-  group('MainApp Widget Tests', () {
-    testWidgets('MainApp should display Hello World text',
-        (WidgetTester tester) async {
-      // Build our app and trigger a frame
-      await tester.pumpWidget(const MainApp());
+  testWidgets('Tugma bosilganda matn o‘zgarishi', (WidgetTester tester) async {
+    await tester.pumpWidget(MaterialApp(home: MyWidget()));
 
-      // Verify that our app displays 'Hello World'
-      expect(find.text('Hello World'), findsOneWidget);
-    });
+    expect(find.text('Old text'), findsOneWidget);
+    expect(find.text('New text'), findsNothing);
 
-    testWidgets('MainApp should have a Scaffold', (WidgetTester tester) async {
-      // Build our app and trigger a frame
-      await tester.pumpWidget(const MainApp());
+    await tester.tap(find.byType(ElevatedButton));
+    await tester.pump();
 
-      // Verify that we have a Scaffold
-      expect(find.byType(Scaffold), findsOneWidget);
-    });
+    expect(find.text('Old text'), findsNothing);
+    expect(find.text('New text'), findsOneWidget);
   });
 }
